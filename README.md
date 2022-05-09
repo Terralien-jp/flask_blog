@@ -8,8 +8,9 @@ https://www.youtube.com/watch?v=VtJ-fGm4gNg
 ### 課題
 * ユーザー重複
 * bootstrapの適用
+    * 別のフロントエンドによる解決法はないか？
 * 各例外処理
-
+* ログインしてない場合ログイン画面を表示
 
 ### 使用ライブラリ等
 flask_sqlalchemy
