@@ -1,3 +1,4 @@
+from ensurepip import bootstrap
 from enum import unique
 from hashlib import sha256
 from click import password_option
@@ -5,6 +6,7 @@ from flask import Flask
 from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required
+from flask_bootstrap import Bootstrap
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -19,6 +21,7 @@ app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 login_maneger = LoginManager()
 login_maneger.init_app(app)
+bootstrap = Bootstrap(app)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

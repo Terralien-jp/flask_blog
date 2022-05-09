@@ -1,13 +1,21 @@
 # flask_blog
 CRUD操作を備えたblog
 
-## step2 create a blog
+## 全完了
 
 https://www.youtube.com/watch?v=VtJ-fGm4gNg
 
+### 課題
+* ユーザー重複
+* bootstrapの適用
+* 各例外処理
+
+
 ### 使用ライブラリ等
 flask_sqlalchemy
+flask-login
 sqlite3
+bootstrap5
 
 ## 起動方法
 
