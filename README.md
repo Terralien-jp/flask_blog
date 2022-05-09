@@ -5,7 +5,7 @@ CRUD操作を備えたblog
 
 https://www.youtube.com/watch?v=VtJ-fGm4gNg
 
-### 使用ライブラリやミドルウェア
+### 使用ライブラリ等
 flask_sqlalchemy
 sqlite3
 
