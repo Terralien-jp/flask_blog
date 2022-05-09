@@ -1,4 +1,3 @@
-from fastapi import Body
 from flask import Flask
 from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -22,6 +21,7 @@ def index():
         posts = Post.query.all()
         return render_template('index.html', posts=posts)
 
+# 記事の新規作成
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     if request.method == 'POST':
@@ -30,12 +30,14 @@ def create():
         
         post = Post(title=title, body=body)
         
+        # 新規データなのでadd必要
         db.session.add(post)
         db.session.commit()
         return redirect('/')
     else:
         return render_template('create.html')
-    
+
+# 記事の編集 createとほぼ同じ感じ
 @app.route('/<int:id>/update', methods=['GET', 'POST'])
 def update(id):
     post = Post.query.get(id)
@@ -45,9 +47,11 @@ def update(id):
         post.title = request.form.get('title')
         post.body = request.form.get('body')
         
+        # すでにあるデータの編集なのでadd不要
         db.session.commit()
         return redirect('/')
-    
+
+# delete ページは作らずボタンで削除する
 @app.route('/<int:id>/delete', methods=['GET', 'POST'])
 def delete(id):
     post = Post.query.get(id)
