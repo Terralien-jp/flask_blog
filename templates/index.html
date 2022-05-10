@@ -9,10 +9,10 @@
         {% for post in posts %}
         <article>
             <h2>{{ post.title }}</h2>
+            <p class="d-inline p-2 bg-primary text-white">{{ post.genre }} {{ post.theme }} 作成日時: {{ post.created_at }}</p>
+            <p>{{ post.body }}</p>
             <a href="/{{post.id}}/update" role="button">編集</a>
             <a href="/{{post.id}}/delete" role="button">削除</a>
-            <p>作成日時: {{ post.created_at }}</p>
-            <p>{{ post.body }}</p>
         </article>
         {% endfor %}
 </div>
