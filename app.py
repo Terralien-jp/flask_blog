@@ -18,6 +18,7 @@ import pytz
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 login_maneger = LoginManager()
@@ -42,14 +43,14 @@ def lode_user(user_id):
     return User.query.get(int(user_id))
 
 @app.route('/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def index():
     if request.method == 'GET':
         posts = Post.query.all()
         return render_template('index.html', posts=posts)
 
 @app.route('/article/<int:id>', methods=['GET'])
-def article():
+def article(id):
     post = Post.query.get(id)
     return render_template('article.html', post=post)
 
@@ -81,20 +82,22 @@ def login():
         return render_template('login.html')
 
 @app.route('/logout')
-@login_required
+# @login_required
 def logout():
     logout_user()
     return redirect('/login')
 
 # 記事の新規作成
 @app.route('/create', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def create():
     if request.method == 'POST':
+        genre = request.form.get('genre')
+        theme = request.form.get('theme')
         title = request.form.get('title')
         body = request.form.get('body')
         
-        post = Post(title=title, body=body)
+        post = Post(genre=genre, theme=theme, title=title, body=body)
         
         # 新規データなのでadd必要
         db.session.add(post)
@@ -105,12 +108,14 @@ def create():
 
 # 記事の編集 createとほぼ同じ感じ
 @app.route('/<int:id>/update', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def update(id):
     post = Post.query.get(id)
     if request.method == 'GET':
         return render_template('update.html', post=post)
     else:
+        post.genre = request.form.get('genre')
+        post.theme = request.form.get('theme')
         post.title = request.form.get('title')
         post.body = request.form.get('body')
         
@@ -120,7 +125,7 @@ def update(id):
 
 # delete ページは作らずボタンで削除する
 @app.route('/<int:id>/delete', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def delete(id):
     post = Post.query.get(id)
     
