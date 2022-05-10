@@ -48,6 +48,11 @@ def index():
         posts = Post.query.all()
         return render_template('index.html', posts=posts)
 
+@app.route('/article/<int:id>', methods=['GET'])
+def article():
+    post = Post.query.get(id)
+    return render_template('article.html', post=post)
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
