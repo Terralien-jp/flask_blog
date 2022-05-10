@@ -1,6 +1,7 @@
 from ensurepip import bootstrap
 from enum import unique
 from hashlib import sha256
+from unicodedata import category
 from click import password_option
 from flask import Flask
 from flask import render_template, request, redirect
@@ -25,6 +26,8 @@ bootstrap = Bootstrap(app)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    genre = db.Column(db.String(50))
+    theme = db.Column(db.String(50))
     title = db.Column(db.String(50), nullable=False)
     body = db.Column(db.String(400), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('Asia/Tokyo')))
