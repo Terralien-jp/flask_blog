@@ -1,13 +1,9 @@
-from ensurepip import bootstrap
-from enum import unique
-from hashlib import sha256
-from unicodedata import category
-from click import password_option
 from flask import Flask
 from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required
 from flask_bootstrap import Bootstrap
+from flask_paginate import Pagination, get_page_parameter
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -30,7 +26,7 @@ class Post(db.Model):
     genre = db.Column(db.String(50))
     theme = db.Column(db.String(50))
     title = db.Column(db.String(50), nullable=False)
-    body = db.Column(db.String(400), nullable=False)
+    body = db.Column(db.String(2000), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('Asia/Tokyo')))
     
 class User(UserMixin, db.Model):
@@ -47,7 +43,10 @@ def lode_user(user_id):
 def index():
     if request.method == 'GET':
         posts = Post.query.all()
-        return render_template('index.html', posts=posts)
+        page = request.args.get(get_page_parameter(), type=int, default=1)
+        rows = posts[(page -1)*3: page*3]
+        pagination = Pagination(page=page, total=len(posts), per_page=3, css_framework='bootstrap')
+        return render_template('index.html', posts=posts, rows=rows, pagination=pagination)
 
 @app.route('/article/<int:id>', methods=['GET'])
 def article(id):
