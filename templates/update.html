@@ -5,10 +5,10 @@
 <div class="container">
     <h1>記事編集</h1>
     <form method="POST">
-        <label for="title">ジャンル</label>
-        <input type="text" class="form-control" name="genre">
-        <label for="title">テーマ</label>
-        <input type="text" class="form-control" name="theme">
+        <label for="genre">ジャンル</label>
+        <input type="text" class="form-control" name="genre" value="{{ post.genre }}">
+        <label for="theme">テーマ</label>
+        <input type="text" class="form-control" name="theme" value="{{ post.theme }}">
         <label for="title">タイトル</label>
         <input type="text" class="form-control" name="title" value="{{ post.title }}">
         <label for="body">内容</label>

@@ -5,14 +5,22 @@
 <div class="container">
     <h1>新規登録</h1>
         <form method="POST">
-            <label for="title">ジャンル</label>
-            <input type="text" class="form-control" name="genre">
-            <label for="title">テーマ</label>
-            <input type="text" class="form-control" name="theme">
-            <label for="title">タイトル</label>
-            <input type="text" class="form-control" name="title">
-            <label for="body">内容</label>
-            <textarea type="text" class="form-control" name="body"></textarea>
+            <p>
+                <label for="genre">ジャンル</label>
+                <input type="text" class="form-control" name="genre"> 
+            </p>
+            <p>
+                <label for="theme">テーマ</label>
+                <input type="text" class="form-control" name="theme">
+            </p>
+            <p>
+                <label for="title">タイトル</label>
+                <input type="text" class="form-control" name="title">
+            </p>
+            <p>
+                <label for="body">内容（全角2000文字）</label>
+                <textarea type="text" class="form-control" name="body"></textarea>
+            </p>
             <input type="submit" class="btn btn-primary" value="新規登録">
         </form>
 </div>
