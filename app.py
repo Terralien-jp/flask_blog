@@ -8,12 +8,12 @@ from flask_paginate import Pagination, get_page_parameter
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
-
 from datetime import datetime
 import pytz
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+# worning出るので対策
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
@@ -43,16 +43,20 @@ def lode_user(user_id):
 def index():
     if request.method == 'GET':
         posts = Post.query.all()
+        # paginatoの設定、ページ内の投稿数を現在10としている
         page = request.args.get(get_page_parameter(), type=int, default=1)
-        rows = posts[(page -1)*3: page*3]
-        pagination = Pagination(page=page, total=len(posts), per_page=3, css_framework='bootstrap')
+        rows = posts[(page -1)*10: page*10]
+        pagination = Pagination(page=page, total=len(posts), per_page=10, css_framework='bootstrap')
         return render_template('index.html', posts=posts, rows=rows, pagination=pagination)
 
+# 記事ページ
 @app.route('/article/<int:id>', methods=['GET'])
+# @login_required
 def article(id):
     post = Post.query.get(id)
     return render_template('article.html', post=post)
 
+# signup,login,logout機能、今のところ有名無実
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -122,7 +126,7 @@ def update(id):
         db.session.commit()
         return redirect('/')
 
-# delete ページは作らずボタンで削除する
+# delete ページは作らずボタンで削除JSかなんかでダイアログ出した方がいい
 @app.route('/<int:id>/delete', methods=['GET', 'POST'])
 # @login_required
 def delete(id):
